@@ -2,19 +2,27 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
+import os
+
+def load_data(filename):
+    script_dir = os.path.dirname(__file__)  
+    file_path = os.path.join(script_dir, filename)
+    return pd.read_csv(file_path)
+
+# Load both datasets
+day_df = load_data('day_data.csv')
+hour_df = load_data('hour_data.csv')
 
 # Load data hasil cleaning di ipynb
 def load_hour_data():
-    df = pd.read_csv('hour_data.csv')
-    df['dteday'] = pd.to_datetime(df['dteday'])
-    df['yr'] = df['yr'].map({0: 2011, 1: 2012})  #di sini terdapat perubahan karena yr merupakan kategori 0 = 2011 dan 1 = 2012
-    return df
+    hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
+    hour_df['yr'] = hour_df['yr'].map({0: 2011, 1: 2012})  #di sini terdapat perubahan karena yr merupakan kategori 0 = 2011 dan 1 = 2012
+    return hour_df
 
 def load_day_data():
-    df = pd.read_csv('day_data.csv')
-    df['dteday'] = pd.to_datetime(df['dteday'])
-    df['yr'] = df['yr'].map({0: 2011, 1: 2012})  #di sini terdapat perubahan karena yr merupakan kategori 0 = 2011 dan 1 = 2012
-    return df
+    day_df['dteday'] = pd.to_datetime(day_df['dteday'])
+    day_df['yr'] = day_df['yr'].map({0: 2011, 1: 2012})  #di sini terdapat perubahan karena yr merupakan kategori 0 = 2011 dan 1 = 2012
+    return day_df
 
 # Sidebar untuk pilihan dataset
 st.sidebar.header('Dataset')
